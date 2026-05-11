@@ -1,0 +1,392 @@
+0 Write a python program to design a Hopfield Network which stores 4 vectors
+
+import numpy as np
+
+# Define 4 bipolar vectors
+x1 = np.array([1, -1, 1, -1])
+x2 = np.array([-1, 1, -1, 1])
+x3 = np.array([1, 1, -1, -1])
+x4 = np.array([-1, -1, 1, 1])
+
+# Store vectors in a list
+patterns = [x1, x2, x3, x4]
+
+# Number of neurons
+n = len(x1)
+
+# Initialize weight matrix
+W = np.zeros((n, n))
+
+# Hebbian Learning Rule
+for pattern in patterns:
+
+    W += np.outer(pattern, pattern)
+
+# Remove self-connections
+np.fill_diagonal(W, 0)
+
+# Display weight matrix
+print("Weight Matrix:")
+print(W)
+
+# Test pattern
+test = np.array([1, -1, 1, -1])
+
+# Recall process
+result = np.dot(W, test)
+
+# Activation Function
+result = np.where(result >= 0, 1, -1)
+
+# Output
+print("\nInput Pattern:")
+print(test)
+
+print("\nRecalled Pattern:")
+print(result)
+
+--------------------------------------------------
+
+Program Title:
+Write a Python Program to design a Hopfield Network which stores 4 vectors.
+
+--------------------------------------------------
+
+Problem Being Solved
+
+The problem is to store multiple bipolar patterns in a Hopfield Neural Network and recall the stored pattern when a test pattern is provided.
+
+The network should remember stored patterns and reproduce the closest matching pattern.
+
+--------------------------------------------------
+
+Aim / What is the Program
+
+The aim of this program is to implement a Hopfield Neural Network using Hebbian Learning Rule for storing and recalling four bipolar vectors.
+
+--------------------------------------------------
+
+What the Program Does
+
+- Creates four bipolar patterns.
+- Generates weight matrix using Hebbian learning.
+- Stores patterns in Hopfield Network memory.
+- Removes self-connections.
+- Takes a test pattern as input.
+- Recalls stored pattern using associative memory.
+- Produces final recalled output pattern.
+
+--------------------------------------------------
+
+1. Import Library
+
+import numpy as np
+
+Explanation:
+
+- numpy library is used for matrix and mathematical operations.
+
+--------------------------------------------------
+
+2. Define Bipolar Vectors
+
+x1 = np.array([1, -1, 1, -1])
+x2 = np.array([-1, 1, -1, 1])
+x3 = np.array([1, 1, -1, -1])
+x4 = np.array([-1, -1, 1, 1])
+
+Explanation:
+
+- Four bipolar patterns are defined.
+- Bipolar values used are:
+    1 and -1
+
+These patterns will be stored in Hopfield Network.
+
+--------------------------------------------------
+
+3. Store Patterns in List
+
+patterns = [x1, x2, x3, x4]
+
+Explanation:
+
+- Stores all patterns together for training.
+
+--------------------------------------------------
+
+4. Number of Neurons
+
+n = len(x1)
+
+Explanation:
+
+- Finds number of neurons.
+- Here:
+    n = 4
+
+--------------------------------------------------
+
+5. Initialize Weight Matrix
+
+W = np.zeros((n, n))
+
+Explanation:
+
+- Creates 4 × 4 weight matrix initialized with zeros.
+
+--------------------------------------------------
+
+6. Hebbian Learning Rule
+
+for pattern in patterns:
+
+    W += np.outer(pattern, pattern)
+
+Explanation:
+
+np.outer(pattern, pattern)
+
+- Computes outer product of pattern vector.
+
+Hebbian Rule:
+
+W = Σ (x × xᵀ)
+
+- Updates weight matrix for every stored pattern.
+
+This stores patterns into network memory.
+
+--------------------------------------------------
+
+7. Remove Self Connections
+
+np.fill_diagonal(W, 0)
+
+Explanation:
+
+- Sets diagonal elements to zero.
+- Prevents neuron from connecting to itself.
+
+--------------------------------------------------
+
+8. Display Weight Matrix
+
+print("Weight Matrix:")
+print(W)
+
+Explanation:
+
+- Displays final trained weight matrix.
+
+--------------------------------------------------
+
+9. Define Test Pattern
+
+test = np.array([1, -1, 1, -1])
+
+Explanation:
+
+- Test pattern is given to Hopfield Network.
+
+--------------------------------------------------
+
+10. Recall Process
+
+result = np.dot(W, test)
+
+Explanation:
+
+- Multiplies weight matrix with input pattern.
+- Produces recalled output values.
+
+--------------------------------------------------
+
+11. Activation Function
+
+result = np.where(result >= 0, 1, -1)
+
+Explanation:
+
+- Converts output into bipolar values.
+- Positive values become 1.
+- Negative values become -1.
+
+--------------------------------------------------
+
+12. Display Input Pattern
+
+print("\nInput Pattern:")
+print(test)
+
+Explanation:
+
+- Displays test input pattern.
+
+--------------------------------------------------
+
+13. Display Recalled Pattern
+
+print("\nRecalled Pattern:")
+print(result)
+
+Explanation:
+
+- Displays final recalled pattern from Hopfield Network.
+
+--------------------------------------------------
+
+Explanation of Output
+
+1. Weight Matrix
+- Represents learned memory of network.
+- Stores relationships between neurons.
+
+2. Input Pattern
+- Pattern given for recall.
+
+3. Recalled Pattern
+- Output generated by Hopfield Network.
+- Ideally matches one of stored patterns.
+
+Example:
+
+Input Pattern:
+[ 1 -1  1 -1]
+
+Recalled Pattern:
+[ 1 -1  1 -1]
+
+This shows:
+- Network successfully remembered stored pattern.
+
+--------------------------------------------------
+
+Hopfield Network
+
+Definition:
+Hopfield Network is a recurrent neural network used for associative memory and pattern recall.
+
+It stores patterns and recalls them when partial or noisy input is given.
+
+--------------------------------------------------
+
+Structure of Hopfield Network
+
+1. Single Layer Network
+- Contains interconnected neurons.
+
+2. Fully Connected Network
+- Every neuron connects to every other neuron.
+
+3. Symmetric Weights
+- Weight from neuron i to j equals weight from j to i.
+
+4. No Self Connections
+- Diagonal weights are zero.
+
+--------------------------------------------------
+
+Working of Hopfield Network
+
+Step 1:
+Store patterns using Hebbian learning.
+
+Step 2:
+Create weight matrix.
+
+Step 3:
+Provide test pattern.
+
+Step 4:
+Calculate neuron activations.
+
+Step 5:
+Apply activation function.
+
+Step 6:
+Recall stored pattern.
+
+--------------------------------------------------
+
+Hebbian Learning Rule
+
+Definition:
+Hebbian learning states:
+
+"Neurons that fire together wire together."
+
+Formula:
+
+W = Σ (x × xᵀ)
+
+where:
+x = pattern vector
+
+--------------------------------------------------
+
+Advantages of Hopfield Network
+
+1. Simple associative memory
+2. Noise tolerance
+3. Pattern completion
+4. Fast recall process
+
+--------------------------------------------------
+
+Applications of Hopfield Network
+
+1. Pattern Recognition
+2. Image Restoration
+3. Error Correction
+4. Associative Memory
+5. Optimization Problems
+
+--------------------------------------------------
+
+Important ANN Concepts Used
+
+1. Hopfield Network
+2. Hebbian Learning
+3. Associative Memory
+4. Bipolar Representation
+5. Weight Matrix
+6. Recurrent Neural Network
+
+--------------------------------------------------
+
+Viva / Oral Questions
+
+Q1. What is Hopfield Network?
+Answer:
+Hopfield Network is a recurrent neural network used for storing and recalling patterns.
+
+--------------------------------------------------
+
+Q2. What type of memory does Hopfield Network use?
+Answer:
+Associative memory.
+
+--------------------------------------------------
+
+Q3. What is Hebbian Learning?
+Answer:
+A learning rule used to update weights based on neuron activations.
+
+--------------------------------------------------
+
+Q4. Why are diagonal elements set to zero?
+Answer:
+To remove self-connections between neurons.
+
+--------------------------------------------------
+
+Q5. What values are used in bipolar representation?
+Answer:
+1 and -1
+
+--------------------------------------------------
+
+Conclusion
+
+This program successfully implements a Hopfield Neural Network using Hebbian Learning Rule. The network stores four bipolar patterns and recalls the correct stored pattern from the given input pattern.

@@ -1,0 +1,535 @@
+12 Implement CNN using TensorFlow/Pytorch.
+
+
+python3 -m pip install tensorflow --break-system-packages
+
+import tensorflow as tf
+
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from tensorflow.keras.utils import to_categorical
+
+# Load MNIST dataset
+(X_train, y_train), (X_test, y_test) = mnist.load_data()
+
+# Reshape and normalize data
+X_train = X_train.reshape(-1, 28, 28, 1) / 255.0
+
+X_test = X_test.reshape(-1, 28, 28, 1) / 255.0
+
+# Convert labels to categorical format
+y_train = to_categorical(y_train)
+
+y_test = to_categorical(y_test)
+
+# Create CNN model
+model = Sequential([
+
+    Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)),
+
+    MaxPooling2D((2, 2)),
+
+    Conv2D(64, (3, 3), activation='relu'),
+
+    MaxPooling2D((2, 2)),
+
+    Conv2D(64, (3, 3), activation='relu'),
+
+    Flatten(),
+
+    Dense(64, activation='relu'),
+
+    Dense(10, activation='softmax')
+
+])
+
+# Compile model
+model.compile(
+    optimizer='adam',
+    loss='categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+# Train model
+model.fit(
+    X_train,
+    y_train,
+    batch_size=64,
+    epochs=10,
+    verbose=1
+)
+
+# Evaluate model
+loss, accuracy = model.evaluate(X_test, y_test)
+
+print(f"Test Loss: {loss}")
+
+print(f"Test Accuracy: {accuracy}")
+
+--------------------------------------------------
+
+Program Title:
+Implement CNN using TensorFlow/PyTorch.
+
+--------------------------------------------------
+
+Problem Being Solved
+
+The problem is to classify handwritten digit images from the MNIST dataset using a Convolutional Neural Network (CNN).
+
+The network should learn image features automatically and correctly recognize digits from 0 to 9.
+
+--------------------------------------------------
+
+Aim / What is the Program
+
+The aim of this program is to implement a Convolutional Neural Network (CNN) using TensorFlow for handwritten digit classification.
+
+--------------------------------------------------
+
+What the Program Does
+
+- Loads MNIST handwritten digit dataset.
+- Preprocesses image data.
+- Builds CNN architecture.
+- Uses convolution and pooling layers.
+- Trains model using image data.
+- Evaluates model accuracy.
+- Predicts handwritten digits.
+
+--------------------------------------------------
+
+1. Import TensorFlow
+
+import tensorflow as tf
+
+Explanation:
+
+- TensorFlow is used for deep learning and neural network implementation.
+
+--------------------------------------------------
+
+2. Import Required Modules
+
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from tensorflow.keras.utils import to_categorical
+
+Explanation:
+
+mnist
+- Loads handwritten digit dataset.
+
+Sequential
+- Creates feed-forward neural network.
+
+Conv2D
+- Convolution layer for feature extraction.
+
+MaxPooling2D
+- Reduces image dimensions.
+
+Flatten
+- Converts 2D data into 1D vector.
+
+Dense
+- Fully connected neural network layer.
+
+to_categorical
+- Converts labels into categorical format.
+
+--------------------------------------------------
+
+3. Load MNIST Dataset
+
+(X_train, y_train), (X_test, y_test) = mnist.load_data()
+
+Explanation:
+
+- Loads MNIST dataset.
+
+Dataset contains:
+- Training images and labels
+- Testing images and labels
+
+MNIST images:
+- Size = 28 × 28 pixels
+- Digits from 0 to 9
+
+--------------------------------------------------
+
+4. Reshape and Normalize Data
+
+X_train = X_train.reshape(-1, 28, 28, 1) / 255.0
+
+X_test = X_test.reshape(-1, 28, 28, 1) / 255.0
+
+Explanation:
+
+reshape(-1, 28, 28, 1)
+
+- Converts images into 4D tensor format.
+
+1 represents:
+- Grayscale image channel.
+
+Division by 255.0:
+- Normalizes pixel values between 0 and 1.
+
+--------------------------------------------------
+
+5. Convert Labels to Categorical Format
+
+y_train = to_categorical(y_train)
+
+y_test = to_categorical(y_test)
+
+Explanation:
+
+- Converts output labels into one-hot encoded format.
+
+Example:
+Digit 3 becomes:
+
+[0 0 0 1 0 0 0 0 0 0]
+
+--------------------------------------------------
+
+6. Create CNN Model
+
+model = Sequential([
+
+    Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)),
+
+    MaxPooling2D((2, 2)),
+
+    Conv2D(64, (3, 3), activation='relu'),
+
+    MaxPooling2D((2, 2)),
+
+    Conv2D(64, (3, 3), activation='relu'),
+
+    Flatten(),
+
+    Dense(64, activation='relu'),
+
+    Dense(10, activation='softmax')
+
+])
+
+Explanation:
+
+--------------------------------------------------
+
+7. First Convolution Layer
+
+Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1))
+
+Explanation:
+
+32
+- Number of filters.
+
+(3,3)
+- Filter size.
+
+ReLU
+- Activation function.
+
+Purpose:
+- Extract image features like edges and patterns.
+
+--------------------------------------------------
+
+8. First Max Pooling Layer
+
+MaxPooling2D((2, 2))
+
+Explanation:
+
+- Reduces image dimensions.
+- Keeps important features.
+- Reduces computation.
+
+--------------------------------------------------
+
+9. Second Convolution Layer
+
+Conv2D(64, (3, 3), activation='relu')
+
+Explanation:
+
+- Uses 64 filters for deeper feature extraction.
+
+--------------------------------------------------
+
+10. Second Max Pooling Layer
+
+MaxPooling2D((2, 2))
+
+Explanation:
+
+- Further reduces feature map size.
+
+--------------------------------------------------
+
+11. Third Convolution Layer
+
+Conv2D(64, (3, 3), activation='relu')
+
+Explanation:
+
+- Extracts more complex image patterns.
+
+--------------------------------------------------
+
+12. Flatten Layer
+
+Flatten()
+
+Explanation:
+
+- Converts 2D feature maps into 1D vector.
+- Required before dense layer.
+
+--------------------------------------------------
+
+13. Dense Hidden Layer
+
+Dense(64, activation='relu')
+
+Explanation:
+
+- Fully connected hidden layer.
+- Learns high-level image features.
+
+--------------------------------------------------
+
+14. Output Layer
+
+Dense(10, activation='softmax')
+
+Explanation:
+
+10 neurons
+- Represents digits 0 to 9.
+
+Softmax activation:
+- Produces probability distribution.
+
+--------------------------------------------------
+
+15. Compile Model
+
+model.compile(
+    optimizer='adam',
+    loss='categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+Explanation:
+
+optimizer='adam'
+- Optimizes model weights.
+
+loss='categorical_crossentropy'
+- Loss function for multiclass classification.
+
+metrics=['accuracy']
+- Measures model accuracy.
+
+--------------------------------------------------
+
+16. Train Model
+
+model.fit(
+    X_train,
+    y_train,
+    batch_size=64,
+    epochs=10,
+    verbose=1
+)
+
+Explanation:
+
+batch_size=64
+- 64 images processed together.
+
+epochs=10
+- Entire dataset trained 10 times.
+
+verbose=1
+- Displays training progress.
+
+--------------------------------------------------
+
+17. Evaluate Model
+
+loss, accuracy = model.evaluate(X_test, y_test)
+
+Explanation:
+
+- Tests model on unseen data.
+- Calculates:
+    1. Test Loss
+    2. Test Accuracy
+
+--------------------------------------------------
+
+18. Display Results
+
+print(f"Test Loss: {loss}")
+
+print(f"Test Accuracy: {accuracy}")
+
+Explanation:
+
+- Displays final performance metrics.
+
+--------------------------------------------------
+
+Explanation of Output
+
+During training:
+- Model displays:
+    Loss
+    Accuracy
+    Epoch progress
+
+Example:
+
+Epoch 1/10
+accuracy: 0.95
+loss: 0.15
+
+After testing:
+
+Test Accuracy: 0.98
+
+Meaning:
+- CNN correctly classifies 98% of handwritten digits.
+
+--------------------------------------------------
+
+CNN (Convolutional Neural Network)
+
+Definition:
+CNN is a deep learning neural network specially designed for image processing and computer vision tasks.
+
+--------------------------------------------------
+
+Structure of CNN
+
+1. Input Layer
+- Receives image data.
+
+2. Convolution Layer
+- Extracts image features.
+
+3. Activation Function
+- Adds non-linearity.
+
+4. Pooling Layer
+- Reduces dimensions.
+
+5. Flatten Layer
+- Converts data into vector form.
+
+6. Dense Layer
+- Performs classification.
+
+7. Output Layer
+- Produces final prediction.
+
+--------------------------------------------------
+
+Working of CNN
+
+Step 1:
+Input image is given.
+
+Step 2:
+Convolution filters extract features.
+
+Step 3:
+Pooling reduces image size.
+
+Step 4:
+Flatten converts data to vector.
+
+Step 5:
+Dense layers classify image.
+
+Step 6:
+Softmax produces final probabilities.
+
+--------------------------------------------------
+
+Advantages of CNN
+
+1. Automatic feature extraction
+2. High image classification accuracy
+3. Reduces manual feature engineering
+4. Efficient for image processing
+
+--------------------------------------------------
+
+Applications of CNN
+
+1. Face Recognition
+2. Handwriting Recognition
+3. Medical Image Analysis
+4. Self-driving Cars
+5. Object Detection
+
+--------------------------------------------------
+
+Important ANN Concepts Used
+
+1. Convolutional Neural Network
+2. Deep Learning
+3. Convolution Layer
+4. Pooling Layer
+5. ReLU Activation
+6. Softmax Activation
+7. Image Classification
+
+--------------------------------------------------
+
+Viva / Oral Questions
+
+Q1. What is CNN?
+Answer:
+CNN is a deep learning neural network mainly used for image processing and classification.
+
+--------------------------------------------------
+
+Q2. What is convolution layer?
+Answer:
+It extracts important image features using filters.
+
+--------------------------------------------------
+
+Q3. Why is pooling used?
+Answer:
+Pooling reduces image dimensions and computation.
+
+--------------------------------------------------
+
+Q4. What is softmax activation?
+Answer:
+Softmax converts outputs into probability values.
+
+--------------------------------------------------
+
+Q5. Why is CNN better for image processing?
+Answer:
+Because CNN automatically learns image features efficiently.
+
+--------------------------------------------------
+
+Conclusion
+
+This program successfully implements a Convolutional Neural Network using TensorFlow for handwritten digit recognition. The CNN learns image features automatically and classifies MNIST digits with high accuracy.

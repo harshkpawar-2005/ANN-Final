@@ -1,0 +1,524 @@
+import numpy as np
+
+class NeuralNetwork:
+
+    def __init__(self, input_size, hidden_size, output_size):
+
+        # Initialize weights and biases
+        self.W1 = np.random.randn(input_size, hidden_size)
+        self.b1 = np.zeros((1, hidden_size))
+
+        self.W2 = np.random.randn(hidden_size, output_size)
+        self.b2 = np.zeros((1, output_size))
+
+    # Sigmoid Activation Function
+    def sigmoid(self, x):
+        return 1 / (1 + np.exp(-x))
+
+    # Derivative of Sigmoid
+    def sigmoid_derivative(self, x):
+        return x * (1 - x)
+
+    # Forward Propagation
+    def forward_propagation(self, X):
+
+        self.z1 = np.dot(X, self.W1) + self.b1
+        self.a1 = self.sigmoid(self.z1)
+
+        self.z2 = np.dot(self.a1, self.W2) + self.b2
+        self.y_hat = self.sigmoid(self.z2)
+
+        return self.y_hat
+
+    # Backward Propagation
+    def backward_propagation(self, X, y, learning_rate):
+
+        error = y - self.y_hat
+
+        delta2 = error * self.sigmoid_derivative(self.y_hat)
+
+        delta1 = np.dot(delta2, self.W2.T) * self.sigmoid_derivative(self.a1)
+
+        # Update weights and biases
+        self.W2 += learning_rate * np.dot(self.a1.T, delta2)
+
+        self.b2 += learning_rate * np.sum(delta2, axis=0, keepdims=True)
+
+        self.W1 += learning_rate * np.dot(X.T, delta1)
+
+        self.b1 += learning_rate * np.sum(delta1, axis=0, keepdims=True)
+
+    # Training Function
+    def train(self, X, y, epochs, learning_rate):
+
+        for i in range(epochs):
+
+            self.forward_propagation(X)
+
+            self.backward_propagation(X, y, learning_rate)
+
+            # Print error every 1000 epochs
+            if i % 1000 == 0:
+
+                loss = np.mean(np.abs(y - self.y_hat))
+
+                print("Error at epoch", i, ":", loss)
+
+    # Prediction Function
+    def predict(self, X):
+
+        y_hat = self.forward_propagation(X)
+
+        return np.round(y_hat)
+
+# XOR Input Dataset
+X = np.array([
+    [0,0],
+    [0,1],
+    [1,0],
+    [1,1]
+])
+
+# XOR Output Dataset
+y = np.array([
+    [0],
+    [1],
+    [1],
+    [0]
+])
+
+# Create Neural Network
+nn = NeuralNetwork(
+    input_size=2,
+    hidden_size=4,
+    output_size=1
+)
+
+# Train Network
+nn.train(
+    X,
+    y,
+    epochs=10000,
+    learning_rate=0.1
+)
+
+# Predictions
+predictions = nn.predict(X)
+
+# Display Results
+print("\nActual Output:")
+print(y)
+
+print("\nPredicted Output:")
+print(predictions)
+
+--------------------------------------------------
+
+Program Title:
+Implement Artificial Neural Network training process in Python using Forward Propagation and Back Propagation.
+
+--------------------------------------------------
+
+Problem Being Solved
+
+The problem is to train an Artificial Neural Network (ANN) to learn the XOR logical operation using Forward Propagation and Back Propagation.
+
+The XOR problem cannot be solved using a single-layer perceptron because it is a non-linear problem. Therefore, a multilayer neural network with hidden layer is used.
+
+--------------------------------------------------
+
+Aim / What is the Program
+
+The aim of this program is to implement a Multilayer Artificial Neural Network and train it using Forward Propagation and Back Propagation algorithms.
+
+--------------------------------------------------
+
+What the Program Does
+
+- Creates a neural network with:
+    Input layer
+    Hidden layer
+    Output layer
+
+- Uses sigmoid activation function.
+- Performs forward propagation to generate output.
+- Calculates error between actual and predicted output.
+- Uses backpropagation to update weights and biases.
+- Learns XOR operation through training.
+- Predicts final outputs after training.
+
+--------------------------------------------------
+
+1. Import Library
+
+import numpy as np
+
+Explanation:
+
+- numpy library is used for matrix operations and numerical calculations.
+
+--------------------------------------------------
+
+2. Create Neural Network Class
+
+class NeuralNetwork:
+
+Explanation:
+
+- Defines Artificial Neural Network class.
+- Contains:
+    1. Weight initialization
+    2. Activation function
+    3. Forward propagation
+    4. Backpropagation
+    5. Training
+    6. Prediction
+
+--------------------------------------------------
+
+3. Initialize Weights and Biases
+
+def __init__(self, input_size, hidden_size, output_size):
+
+    self.W1 = np.random.randn(input_size, hidden_size)
+    self.b1 = np.zeros((1, hidden_size))
+
+    self.W2 = np.random.randn(hidden_size, output_size)
+    self.b2 = np.zeros((1, output_size))
+
+Explanation:
+
+W1
+- Weights between input layer and hidden layer.
+
+b1
+- Bias for hidden layer.
+
+W2
+- Weights between hidden layer and output layer.
+
+b2
+- Bias for output layer.
+
+np.random.randn()
+- Initializes random weights.
+
+--------------------------------------------------
+
+4. Sigmoid Activation Function
+
+def sigmoid(self, x):
+    return 1 / (1 + np.exp(-x))
+
+Explanation:
+
+- Converts values into range between 0 and 1.
+
+Formula:
+
+sigmoid(x) = 1 / (1 + e^(-x))
+
+--------------------------------------------------
+
+5. Derivative of Sigmoid Function
+
+def sigmoid_derivative(self, x):
+    return x * (1 - x)
+
+Explanation:
+
+- Used during backpropagation.
+- Helps calculate gradient for weight updates.
+
+--------------------------------------------------
+
+6. Forward Propagation
+
+def forward_propagation(self, X):
+
+    self.z1 = np.dot(X, self.W1) + self.b1
+    self.a1 = self.sigmoid(self.z1)
+
+    self.z2 = np.dot(self.a1, self.W2) + self.b2
+    self.y_hat = self.sigmoid(self.z2)
+
+    return self.y_hat
+
+Explanation:
+
+Step 1:
+Input → Hidden Layer
+
+z1 = weighted sum
+
+a1 = activated hidden layer output
+
+Step 2:
+Hidden Layer → Output Layer
+
+z2 = weighted sum
+
+y_hat = predicted output
+
+This process is called Forward Propagation.
+
+--------------------------------------------------
+
+7. Backward Propagation
+
+def backward_propagation(self, X, y, learning_rate):
+
+    error = y - self.y_hat
+
+    delta2 = error * self.sigmoid_derivative(self.y_hat)
+
+    delta1 = np.dot(delta2, self.W2.T) * self.sigmoid_derivative(self.a1)
+
+Explanation:
+
+error
+- Difference between actual and predicted output.
+
+delta2
+- Error gradient for output layer.
+
+delta1
+- Error gradient for hidden layer.
+
+--------------------------------------------------
+
+8. Update Weights and Biases
+
+self.W2 += learning_rate * np.dot(self.a1.T, delta2)
+
+self.b2 += learning_rate * np.sum(delta2, axis=0, keepdims=True)
+
+self.W1 += learning_rate * np.dot(X.T, delta1)
+
+self.b1 += learning_rate * np.sum(delta1, axis=0, keepdims=True)
+
+Explanation:
+
+- Updates weights and biases using gradients.
+- Helps reduce prediction error.
+
+This process is called Backpropagation Learning.
+
+--------------------------------------------------
+
+9. Training Function
+
+def train(self, X, y, epochs, learning_rate):
+
+    for i in range(epochs):
+
+        self.forward_propagation(X)
+
+        self.backward_propagation(X, y, learning_rate)
+
+Explanation:
+
+- Repeats training multiple times.
+- Each iteration improves network learning.
+
+--------------------------------------------------
+
+10. Print Error
+
+if i % 1000 == 0:
+
+    loss = np.mean(np.abs(y - self.y_hat))
+
+    print("Error at epoch", i, ":", loss)
+
+Explanation:
+
+- Displays training error after every 1000 epochs.
+- Error decreases as learning improves.
+
+--------------------------------------------------
+
+11. Prediction Function
+
+def predict(self, X):
+
+    y_hat = self.forward_propagation(X)
+
+    return np.round(y_hat)
+
+Explanation:
+
+- Predicts final output after training.
+- np.round() converts output into:
+    0 or 1
+
+--------------------------------------------------
+
+12. XOR Input Dataset
+
+X = np.array([
+    [0,0],
+    [0,1],
+    [1,0],
+    [1,1]
+])
+
+Explanation:
+
+- Input combinations for XOR gate.
+
+--------------------------------------------------
+
+13. XOR Output Dataset
+
+y = np.array([
+    [0],
+    [1],
+    [1],
+    [0]
+])
+
+Explanation:
+
+XOR Truth Table:
+
+0 XOR 0 = 0
+0 XOR 1 = 1
+1 XOR 0 = 1
+1 XOR 1 = 0
+
+--------------------------------------------------
+
+14. Create Neural Network
+
+nn = NeuralNetwork(
+    input_size=2,
+    hidden_size=4,
+    output_size=1
+)
+
+Explanation:
+
+- Creates ANN model.
+- 2 input neurons
+- 4 hidden neurons
+- 1 output neuron
+
+--------------------------------------------------
+
+15. Train Network
+
+nn.train(
+    X,
+    y,
+    epochs=10000,
+    learning_rate=0.1
+)
+
+Explanation:
+
+- Trains network for 10000 iterations.
+
+--------------------------------------------------
+
+16. Predict Output
+
+predictions = nn.predict(X)
+
+Explanation:
+
+- Predicts XOR outputs after training.
+
+--------------------------------------------------
+
+17. Display Results
+
+print("\nActual Output:")
+print(y)
+
+print("\nPredicted Output:")
+print(predictions)
+
+Explanation:
+
+- Displays actual XOR outputs.
+- Displays predicted outputs from ANN.
+
+--------------------------------------------------
+
+Explanation of Output
+
+During training:
+- Error gradually decreases.
+- This indicates that network is learning correctly.
+
+Final predicted output becomes close to:
+
+[[0]
+ [1]
+ [1]
+ [0]]
+
+This matches XOR truth table.
+
+Hence neural network successfully learns XOR operation.
+
+--------------------------------------------------
+
+Important ANN Concepts Used
+
+1. Artificial Neural Network (ANN)
+- Computing model inspired by biological neurons.
+
+2. Forward Propagation
+- Data moves from input layer to output layer.
+
+3. Backpropagation
+- Updates weights using error gradients.
+
+4. Hidden Layer
+- Helps solve non-linear problems.
+
+5. Sigmoid Function
+- Activation function used in ANN.
+
+6. Epoch
+- One complete training cycle.
+
+--------------------------------------------------
+
+Viva / Oral Questions
+
+Q1. What is Forward Propagation?
+Answer:
+Forward propagation is the process of passing input data through the network to generate output.
+
+--------------------------------------------------
+
+Q2. What is Backpropagation?
+Answer:
+Backpropagation is the process of updating weights and biases using prediction error.
+
+--------------------------------------------------
+
+Q3. Why is hidden layer used?
+Answer:
+Hidden layer helps solve complex and non-linear problems.
+
+--------------------------------------------------
+
+Q4. Why cannot XOR be solved using single layer perceptron?
+Answer:
+Because XOR is a non-linear problem.
+
+--------------------------------------------------
+
+Q5. What is the role of activation function?
+Answer:
+Activation function introduces non-linearity into the network.
+
+--------------------------------------------------
+
+Conclusion
+
+This program successfully implements an Artificial Neural Network using Forward Propagation and Backpropagation. The network learns XOR operation by updating weights and biases during training and produces correct predictions after learning.

@@ -1,0 +1,504 @@
+Write a python program in python program for creating a Back
+Propagation Feed-forward neural network
+
+import numpy as np
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+def sigmoid_derivative(x):
+    return x * (1 - x)
+
+X = np.array([
+    [0,0],
+    [0,1],
+    [1,0],
+    [1,1]
+])
+
+y = np.array([
+    [0],
+    [1],
+    [1],
+    [0]
+])
+
+input_hidden_weights = np.random.uniform(size=(2,2))
+hidden_output_weights = np.random.uniform(size=(2,1))
+
+hidden_bias = np.random.uniform(size=(1,2))
+output_bias = np.random.uniform(size=(1,1))
+
+lr = 0.1
+
+epochs = 10000
+
+for epoch in range(epochs):
+
+    hidden_input = np.dot(X, input_hidden_weights) + hidden_bias
+
+    hidden_output = sigmoid(hidden_input)
+
+    final_input = np.dot(hidden_output, hidden_output_weights) + output_bias
+
+    predicted_output = sigmoid(final_input)
+
+    error = y - predicted_output
+
+    d_output = error * sigmoid_derivative(predicted_output)
+
+    error_hidden = d_output.dot(hidden_output_weights.T)
+
+    d_hidden = error_hidden * sigmoid_derivative(hidden_output)
+
+    hidden_output_weights += hidden_output.T.dot(d_output) * lr
+
+    output_bias += np.sum(d_output, axis=0, keepdims=True) * lr
+
+    input_hidden_weights += X.T.dot(d_hidden) * lr
+
+    hidden_bias += np.sum(d_hidden, axis=0, keepdims=True) * lr
+
+print("Actual Output:")
+print(y)
+
+print("\nPredicted Output:")
+print(np.round(predicted_output))
+
+--------------------------------------------------
+
+Program Title:
+Write a Python Program for creating a Back Propagation Feed-Forward Neural Network.
+
+--------------------------------------------------
+
+Problem Being Solved
+
+The problem is to train a Feed-Forward Neural Network using Back Propagation so that it can learn the XOR logical operation.
+
+Since XOR is a non-linear problem, a multilayer feed-forward neural network is required.
+
+--------------------------------------------------
+
+Aim / What is the Program
+
+The aim of this program is to implement a Back Propagation Feed-Forward Neural Network in Python using sigmoid activation function and train it using XOR dataset.
+
+--------------------------------------------------
+
+What the Program Does
+
+- Creates a Feed-Forward Neural Network.
+- Uses:
+    Input Layer
+    Hidden Layer
+    Output Layer
+
+- Performs forward propagation.
+- Calculates prediction error.
+- Uses backpropagation to update weights and biases.
+- Trains network on XOR dataset.
+- Predicts final outputs after learning.
+
+--------------------------------------------------
+
+1. Import Library
+
+import numpy as np
+
+Explanation:
+
+- numpy library is used for matrix and mathematical operations.
+
+--------------------------------------------------
+
+2. Sigmoid Activation Function
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+Explanation:
+
+- Converts values into range between 0 and 1.
+
+Formula:
+
+sigmoid(x) = 1 / (1 + e^(-x))
+
+--------------------------------------------------
+
+3. Derivative of Sigmoid Function
+
+def sigmoid_derivative(x):
+    return x * (1 - x)
+
+Explanation:
+
+- Used during backpropagation.
+- Helps calculate gradients for weight updates.
+
+--------------------------------------------------
+
+4. XOR Input Dataset
+
+X = np.array([
+    [0,0],
+    [0,1],
+    [1,0],
+    [1,1]
+])
+
+Explanation:
+
+- Input combinations for XOR gate.
+
+--------------------------------------------------
+
+5. XOR Output Dataset
+
+y = np.array([
+    [0],
+    [1],
+    [1],
+    [0]
+])
+
+Explanation:
+
+XOR Truth Table:
+
+0 XOR 0 = 0
+0 XOR 1 = 1
+1 XOR 0 = 1
+1 XOR 1 = 0
+
+--------------------------------------------------
+
+6. Initialize Weights
+
+input_hidden_weights = np.random.uniform(size=(2,2))
+
+hidden_output_weights = np.random.uniform(size=(2,1))
+
+Explanation:
+
+input_hidden_weights
+- Weights between input layer and hidden layer.
+
+hidden_output_weights
+- Weights between hidden layer and output layer.
+
+np.random.uniform()
+- Initializes random weight values.
+
+--------------------------------------------------
+
+7. Initialize Biases
+
+hidden_bias = np.random.uniform(size=(1,2))
+
+output_bias = np.random.uniform(size=(1,1))
+
+Explanation:
+
+hidden_bias
+- Bias for hidden layer.
+
+output_bias
+- Bias for output layer.
+
+--------------------------------------------------
+
+8. Set Learning Parameters
+
+lr = 0.1
+
+epochs = 10000
+
+Explanation:
+
+lr
+- Learning rate.
+
+epochs
+- Number of training iterations.
+
+--------------------------------------------------
+
+9. Training Loop
+
+for epoch in range(epochs):
+
+Explanation:
+
+- Repeats training process multiple times.
+
+--------------------------------------------------
+
+10. Forward Propagation
+
+hidden_input = np.dot(X, input_hidden_weights) + hidden_bias
+
+hidden_output = sigmoid(hidden_input)
+
+Explanation:
+
+- Input layer sends data to hidden layer.
+- Weighted sum is calculated.
+- Sigmoid activation function is applied.
+
+--------------------------------------------------
+
+11. Output Layer Processing
+
+final_input = np.dot(hidden_output, hidden_output_weights) + output_bias
+
+predicted_output = sigmoid(final_input)
+
+Explanation:
+
+- Hidden layer sends data to output layer.
+- Final predicted output is generated.
+
+--------------------------------------------------
+
+12. Calculate Error
+
+error = y - predicted_output
+
+Explanation:
+
+- Finds difference between actual and predicted output.
+
+--------------------------------------------------
+
+13. Output Layer Gradient
+
+d_output = error * sigmoid_derivative(predicted_output)
+
+Explanation:
+
+- Calculates output layer gradient.
+- Used for updating weights.
+
+--------------------------------------------------
+
+14. Hidden Layer Error
+
+error_hidden = d_output.dot(hidden_output_weights.T)
+
+d_hidden = error_hidden * sigmoid_derivative(hidden_output)
+
+Explanation:
+
+- Propagates error back to hidden layer.
+- Calculates hidden layer gradient.
+
+--------------------------------------------------
+
+15. Update Hidden to Output Weights
+
+hidden_output_weights += hidden_output.T.dot(d_output) * lr
+
+Explanation:
+
+- Updates weights between hidden and output layer.
+
+--------------------------------------------------
+
+16. Update Output Bias
+
+output_bias += np.sum(d_output, axis=0, keepdims=True) * lr
+
+Explanation:
+
+- Updates output layer bias.
+
+--------------------------------------------------
+
+17. Update Input to Hidden Weights
+
+input_hidden_weights += X.T.dot(d_hidden) * lr
+
+Explanation:
+
+- Updates weights between input and hidden layer.
+
+--------------------------------------------------
+
+18. Update Hidden Bias
+
+hidden_bias += np.sum(d_hidden, axis=0, keepdims=True) * lr
+
+Explanation:
+
+- Updates hidden layer bias.
+
+--------------------------------------------------
+
+19. Display Actual Output
+
+print("Actual Output:")
+print(y)
+
+Explanation:
+
+- Displays actual XOR outputs.
+
+--------------------------------------------------
+
+20. Display Predicted Output
+
+print("\nPredicted Output:")
+print(np.round(predicted_output))
+
+Explanation:
+
+- Displays predicted outputs after training.
+- np.round() converts values close to:
+    0 or 1
+
+--------------------------------------------------
+
+Explanation of Output
+
+After training:
+- Predicted outputs become very close to actual XOR outputs.
+
+Example:
+
+Actual Output:
+[[0]
+ [1]
+ [1]
+ [0]]
+
+Predicted Output:
+[[0]
+ [1]
+ [1]
+ [0]]
+
+This shows:
+- Neural network successfully learned XOR operation.
+
+--------------------------------------------------
+
+Feed-Forward Neural Network
+
+Definition:
+A Feed-Forward Neural Network is a neural network where data moves only in one direction:
+
+Input Layer → Hidden Layer → Output Layer
+
+There is no feedback connection.
+
+--------------------------------------------------
+
+Structure of Feed-Forward Neural Network
+
+1. Input Layer
+- Receives input data.
+
+2. Hidden Layer
+- Performs computations and feature learning.
+
+3. Output Layer
+- Produces final prediction.
+
+--------------------------------------------------
+
+Working of Feed-Forward Neural Network
+
+Step 1:
+Input data is given to network.
+
+Step 2:
+Data passes through hidden layer.
+
+Step 3:
+Activation function is applied.
+
+Step 4:
+Output is generated.
+
+Step 5:
+Error is calculated.
+
+Step 6:
+Backpropagation updates weights and biases.
+
+--------------------------------------------------
+
+Back Propagation
+
+Definition:
+Backpropagation is a learning algorithm used to minimize prediction error by updating weights and biases.
+
+--------------------------------------------------
+
+Advantages of Feed-Forward Neural Network
+
+1. Simple architecture
+2. Fast computation
+3. Good for pattern recognition
+4. Learns complex relationships
+
+--------------------------------------------------
+
+Applications
+
+1. Pattern Recognition
+2. Image Classification
+3. Speech Recognition
+4. Medical Diagnosis
+5. Prediction Systems
+
+--------------------------------------------------
+
+Important ANN Concepts Used
+
+1. Feed-Forward Neural Network
+2. Backpropagation
+3. Hidden Layer
+4. Sigmoid Activation Function
+5. Weight Update
+6. Gradient Descent
+
+--------------------------------------------------
+
+Viva / Oral Questions
+
+Q1. What is Feed-Forward Neural Network?
+Answer:
+It is a neural network where data moves only in forward direction from input layer to output layer.
+
+--------------------------------------------------
+
+Q2. What is Backpropagation?
+Answer:
+It is a learning algorithm used to update weights using prediction error.
+
+--------------------------------------------------
+
+Q3. Why is hidden layer required?
+Answer:
+Hidden layer helps solve complex and non-linear problems.
+
+--------------------------------------------------
+
+Q4. What is the role of sigmoid function?
+Answer:
+It converts values into range between 0 and 1.
+
+--------------------------------------------------
+
+Q5. Why cannot XOR be solved using single-layer perceptron?
+Answer:
+Because XOR is a non-linear problem.
+
+--------------------------------------------------
+
+Conclusion
+
+This program successfully implements a Back Propagation Feed-Forward Neural Network. The network learns XOR operation through forward propagation and backpropagation and produces correct binary outputs after training.

@@ -1,0 +1,437 @@
+11 How to Train a Neural Network with TensorFlow/Pytorch and
+evaluation of logistic regression using Tensorflow.
+
+Run command in terminal:
+
+python3 -m pip install tensorflow --break-system-packages
+
+
+import tensorflow as tf
+import numpy as np
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.datasets import load_breast_cancer
+
+df = load_breast_cancer()
+
+X_train, X_test, y_train, y_test = train_test_split(
+    df.data,
+    df.target,
+    test_size=0.20,
+    random_state=42
+)
+
+sc = StandardScaler()
+
+X_train = sc.fit_transform(X_train)
+
+X_test = sc.transform(X_test)
+
+model = tf.keras.models.Sequential([
+    tf.keras.layers.Dense(
+        1,
+        activation='sigmoid',
+        input_shape=(X_train.shape[1],)
+    )
+])
+
+model.compile(
+    optimizer='adam',
+    loss='binary_crossentropy',
+    metrics=['accuracy']
+)
+
+model.fit(X_train, y_train, epochs=5)
+
+y_pred = model.predict(X_test)
+
+test_loss, test_accuracy = model.evaluate(X_test, y_test)
+
+print("accuracy is", test_accuracy)
+
+--------------------------------------------------
+
+Program Title:
+Train a Neural Network with TensorFlow and evaluate Logistic Regression using TensorFlow.
+
+--------------------------------------------------
+
+Problem Being Solved
+
+The problem is to classify breast cancer data into malignant or benign classes using Logistic Regression implemented with TensorFlow Neural Network.
+
+The model should learn patterns from training data and accurately predict unseen test data.
+
+--------------------------------------------------
+
+Aim / What is the Program
+
+The aim of this program is to build, train, and evaluate a Logistic Regression Neural Network model using TensorFlow on the Breast Cancer dataset.
+
+--------------------------------------------------
+
+What the Program Does
+
+- Installs TensorFlow library.
+- Loads Breast Cancer dataset.
+- Splits data into training and testing sets.
+- Standardizes feature values.
+- Creates Logistic Regression model using TensorFlow.
+- Trains model using neural network learning.
+- Predicts outputs on test data.
+- Evaluates model accuracy.
+
+--------------------------------------------------
+
+1. Install TensorFlow
+
+python3 -m pip install tensorflow --break-system-packages
+
+Explanation:
+
+- Installs TensorFlow library in Python environment.
+
+TensorFlow:
+- Open-source deep learning framework developed by Google.
+
+--------------------------------------------------
+
+2. Import Libraries
+
+import tensorflow as tf
+import numpy as np
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.datasets import load_breast_cancer
+
+Explanation:
+
+tensorflow
+- Used for neural network creation and training.
+
+numpy
+- Used for numerical operations.
+
+train_test_split
+- Splits dataset into train and test sets.
+
+StandardScaler
+- Normalizes feature values.
+
+load_breast_cancer
+- Loads Breast Cancer dataset.
+
+--------------------------------------------------
+
+3. Load Dataset
+
+df = load_breast_cancer()
+
+Explanation:
+
+- Loads Breast Cancer dataset from sklearn.
+
+Dataset contains:
+- Input features
+- Cancer classification labels
+
+--------------------------------------------------
+
+4. Split Dataset
+
+X_train, X_test, y_train, y_test = train_test_split(
+    df.data,
+    df.target,
+    test_size=0.20,
+    random_state=42
+)
+
+Explanation:
+
+df.data
+- Input features.
+
+df.target
+- Output labels.
+
+test_size=0.20
+- 20% data used for testing.
+
+random_state=42
+- Ensures same split every run.
+
+--------------------------------------------------
+
+5. Feature Scaling
+
+sc = StandardScaler()
+
+X_train = sc.fit_transform(X_train)
+
+X_test = sc.transform(X_test)
+
+Explanation:
+
+StandardScaler:
+- Standardizes data values.
+
+Formula:
+
+z = (x - mean) / standard deviation
+
+Why scaling is needed:
+- Improves training performance.
+- Helps faster convergence.
+
+--------------------------------------------------
+
+6. Create Neural Network Model
+
+model = tf.keras.models.Sequential([
+    tf.keras.layers.Dense(
+        1,
+        activation='sigmoid',
+        input_shape=(X_train.shape[1],)
+    )
+])
+
+Explanation:
+
+Sequential()
+- Creates feed-forward neural network.
+
+Dense Layer:
+- Fully connected layer.
+
+1 neuron
+- Used for binary classification.
+
+activation='sigmoid'
+- Produces output between 0 and 1.
+
+input_shape=(X_train.shape[1],)
+- Number of input features.
+
+--------------------------------------------------
+
+7. Compile Model
+
+model.compile(
+    optimizer='adam',
+    loss='binary_crossentropy',
+    metrics=['accuracy']
+)
+
+Explanation:
+
+optimizer='adam'
+- Optimization algorithm used for training.
+
+loss='binary_crossentropy'
+- Loss function for binary classification.
+
+metrics=['accuracy']
+- Measures prediction accuracy.
+
+--------------------------------------------------
+
+8. Train Model
+
+model.fit(X_train, y_train, epochs=5)
+
+Explanation:
+
+- Trains neural network using training data.
+
+epochs=5
+- Entire dataset is trained 5 times.
+
+--------------------------------------------------
+
+9. Predict Outputs
+
+y_pred = model.predict(X_test)
+
+Explanation:
+
+- Predicts outputs for testing dataset.
+
+--------------------------------------------------
+
+10. Evaluate Model
+
+test_loss, test_accuracy = model.evaluate(X_test, y_test)
+
+Explanation:
+
+- Calculates:
+    1. Test loss
+    2. Test accuracy
+
+--------------------------------------------------
+
+11. Display Accuracy
+
+print("accuracy is", test_accuracy)
+
+Explanation:
+
+- Displays final model accuracy.
+
+--------------------------------------------------
+
+Explanation of Output
+
+During training:
+- TensorFlow displays:
+    Loss
+    Accuracy
+    Epoch progress
+
+Example:
+
+Epoch 1/5
+loss: 0.45
+accuracy: 0.82
+
+After evaluation:
+
+accuracy is 0.95
+
+Meaning:
+- Model correctly predicts 95% of test samples.
+
+Higher accuracy indicates better classification performance.
+
+--------------------------------------------------
+
+Logistic Regression
+
+Definition:
+Logistic Regression is a classification algorithm used for binary classification problems.
+
+It predicts probability values between:
+0 and 1
+
+--------------------------------------------------
+
+Why Sigmoid Function is Used
+
+Sigmoid function converts output into probability values.
+
+Formula:
+
+sigmoid(x) = 1 / (1 + e^(-x))
+
+Output range:
+0 to 1
+
+--------------------------------------------------
+
+TensorFlow
+
+Definition:
+TensorFlow is an open-source machine learning and deep learning framework developed by Google.
+
+--------------------------------------------------
+
+Structure of the Neural Network
+
+1. Input Layer
+- Receives dataset features.
+
+2. Dense Output Layer
+- Produces binary classification result.
+
+3. Sigmoid Activation
+- Converts output into probability.
+
+--------------------------------------------------
+
+Working of the Program
+
+Step 1:
+Load and preprocess dataset.
+
+Step 2:
+Create neural network model.
+
+Step 3:
+Train model using training data.
+
+Step 4:
+Predict outputs for test data.
+
+Step 5:
+Evaluate model accuracy.
+
+--------------------------------------------------
+
+Advantages of TensorFlow
+
+1. Easy neural network implementation
+2. Fast computation
+3. GPU support
+4. Scalable deep learning framework
+
+--------------------------------------------------
+
+Applications
+
+1. Medical Diagnosis
+2. Image Classification
+3. Spam Detection
+4. Fraud Detection
+5. Disease Prediction
+
+--------------------------------------------------
+
+Important ANN Concepts Used
+
+1. Neural Network
+2. Logistic Regression
+3. TensorFlow
+4. Sigmoid Activation Function
+5. Binary Classification
+6. Model Training
+7. Model Evaluation
+
+--------------------------------------------------
+
+Viva / Oral Questions
+
+Q1. What is TensorFlow?
+Answer:
+TensorFlow is an open-source machine learning framework developed by Google.
+
+--------------------------------------------------
+
+Q2. What is Logistic Regression?
+Answer:
+Logistic Regression is a classification algorithm used for binary classification.
+
+--------------------------------------------------
+
+Q3. Why is sigmoid activation used?
+Answer:
+Because it produces output values between 0 and 1.
+
+--------------------------------------------------
+
+Q4. What is binary_crossentropy?
+Answer:
+It is a loss function used for binary classification problems.
+
+--------------------------------------------------
+
+Q5. What is the role of optimizer?
+Answer:
+Optimizer updates model weights to reduce loss.
+
+--------------------------------------------------
+
+Conclusion
+
+This program successfully demonstrates training and evaluation of a Logistic Regression Neural Network using TensorFlow. The model learns from Breast Cancer dataset and predicts cancer classification with good accuracy.

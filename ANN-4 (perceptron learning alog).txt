@@ -1,0 +1,510 @@
+# 4. With a suitable example demonstrate the perceptron learning law with its decision regions 
+# using python. Give the output in graphical form.
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# --- Data Preparation Section ---
+
+# CHOICE A: Using scikit-learn (ACTIVE)
+from sklearn.datasets import load_iris
+
+iris = load_iris()
+
+X = iris.data[:, [0, 2]] # Taking Sepal Length and Petal Length
+
+y = np.where(iris.target == 0, 0, 1) # Binary: Setosa vs Others
+
+# CHOICE B: If a CSV dataset is provided, UNCOMMENT the lines below:
+# import pandas as pd
+# data = pd.read_csv('iris.csv')
+# X = data.iloc[:, [0, 2]].values # Select columns for features
+# y = np.where(data.iloc[:, -1] == 'Setosa', 0, 1) # Convert labels to 0 and 1
+
+# --- Perceptron Parameters ---
+
+w = np.zeros(2) # Initial weights for our 2 features
+
+b = 0 # Initial bias
+
+lr = 0.1 # Learning Rate (eta)
+
+epochs = 30 # Number of times to repeat the training
+
+# --- Training the Model ---
+
+# Perceptron Prediction function
+def predict(x):
+
+    # If (X * W) + Bias >= 0, return 1, else return 0
+    return np.where(np.dot(x, w) + b >= 0, 1, 0)
+
+# Training Loop: Adjusting weights based on error
+for _ in range(epochs):
+
+    for i in range(len(X)):
+
+        y_pred = predict(X[i]) # Predict for current data point
+
+        error = y[i] - y_pred  # Calculate error (Target - Prediction)
+
+        # Update weights: wj(t+1) = wj(t) + η(d-y)x
+        w[:] = w + lr * error * X[i]
+
+        b = b + lr * error
+
+# --- Plotting Decision Regions ---
+
+# 1. Create a grid to cover the entire plot area
+x_min, x_max = X[:, 0].min() - 0.5, X[:, 0].max() + 0.5
+
+y_min, y_max = X[:, 1].min() - 0.5, X[:, 1].max() + 0.5
+
+xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.05),
+                     np.arange(y_min, y_max, 0.05))
+
+# 2. Predict the class for every single point on the grid
+Z = predict(np.c_[xx.ravel(), yy.ravel()])
+
+Z = Z.reshape(xx.shape) # Reshape back to the grid size
+
+# 3. Draw decision regions and scatter data points
+plt.contourf(xx, yy, Z, alpha=0.4)
+
+# 4. Plot the actual data points on top
+plt.scatter(X[:, 0], X[:, 1], c=y, edgecolor='k')
+
+# Labels and Title
+plt.xlabel("Sepal Length")
+
+plt.ylabel("Petal Length")
+
+plt.title("Perceptron Decision Regions (Iris Setosa vs Others)")
+
+plt.show()
+
+--------------------------------------------------
+
+Program Title:
+Demonstration of Perceptron Learning Law with Decision Regions using Python.
+
+--------------------------------------------------
+
+Problem Being Solved
+
+The problem is to classify Iris flower data into two classes using the Perceptron Learning Law and visualize the decision regions graphically.
+
+The perceptron should learn a decision boundary that separates Iris Setosa from other flower classes.
+
+--------------------------------------------------
+
+Aim / What is the Program
+
+The aim of this program is to implement the Perceptron Learning Algorithm and display its decision regions using graphical visualization.
+
+--------------------------------------------------
+
+What the Program Does
+
+- Loads Iris flower dataset.
+- Selects two input features:
+    1. Sepal Length
+    2. Petal Length
+
+- Converts multiclass data into binary classification.
+- Trains perceptron using learning law.
+- Updates weights and bias according to prediction error.
+- Generates graphical decision regions.
+- Displays classification boundary visually.
+
+--------------------------------------------------
+
+1. Import Libraries
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+Explanation:
+
+numpy
+- Used for numerical calculations.
+
+matplotlib.pyplot
+- Used for graph plotting.
+
+--------------------------------------------------
+
+2. Load Iris Dataset
+
+from sklearn.datasets import load_iris
+
+iris = load_iris()
+
+Explanation:
+
+- Loads Iris flower dataset from scikit-learn.
+
+Dataset contains:
+- Flower measurements
+- Flower categories
+
+--------------------------------------------------
+
+3. Select Features
+
+X = iris.data[:, [0, 2]]
+
+Explanation:
+
+Selected features:
+- Column 0 → Sepal Length
+- Column 2 → Petal Length
+
+These are used as input features.
+
+--------------------------------------------------
+
+4. Create Binary Output Labels
+
+y = np.where(iris.target == 0, 0, 1)
+
+Explanation:
+
+- Converts multiclass problem into binary classification.
+
+Class Mapping:
+- Setosa → 0
+- Other flowers → 1
+
+--------------------------------------------------
+
+5. CSV Dataset Option
+
+# import pandas as pd
+# data = pd.read_csv('iris.csv')
+
+Explanation:
+
+- Alternative method for loading dataset from CSV file.
+
+--------------------------------------------------
+
+6. Initialize Perceptron Parameters
+
+w = np.zeros(2)
+
+b = 0
+
+lr = 0.1
+
+epochs = 30
+
+Explanation:
+
+w
+- Initial weights for 2 features.
+
+b
+- Initial bias.
+
+lr
+- Learning rate.
+
+epochs
+- Number of training iterations.
+
+--------------------------------------------------
+
+7. Prediction Function
+
+def predict(x):
+
+    return np.where(np.dot(x, w) + b >= 0, 1, 0)
+
+Explanation:
+
+np.dot(x, w)
+- Calculates weighted sum.
+
++b
+- Adds bias.
+
+Condition:
+- If result >= 0:
+    Output = 1
+- Else:
+    Output = 0
+
+--------------------------------------------------
+
+8. Training Loop
+
+for _ in range(epochs):
+
+    for i in range(len(X)):
+
+        y_pred = predict(X[i])
+
+        error = y[i] - y_pred
+
+        w[:] = w + lr * error * X[i]
+
+        b = b + lr * error
+
+Explanation:
+
+Training Steps:
+
+1. Predict output.
+2. Calculate error.
+3. Update weights.
+4. Update bias.
+
+Weight Update Formula:
+
+w = w + lr × error × input
+
+Bias Update Formula:
+
+b = b + lr × error
+
+This is called Perceptron Learning Law.
+
+--------------------------------------------------
+
+9. Define Plot Boundaries
+
+x_min, x_max = X[:, 0].min() - 0.5, X[:, 0].max() + 0.5
+
+y_min, y_max = X[:, 1].min() - 0.5, X[:, 1].max() + 0.5
+
+Explanation:
+
+- Defines graph area for visualization.
+
+--------------------------------------------------
+
+10. Create Mesh Grid
+
+xx, yy = np.meshgrid(
+    np.arange(x_min, x_max, 0.05),
+    np.arange(y_min, y_max, 0.05)
+)
+
+Explanation:
+
+- Creates coordinate grid for plotting decision regions.
+
+--------------------------------------------------
+
+11. Predict Decision Regions
+
+Z = predict(np.c_[xx.ravel(), yy.ravel()])
+
+Z = Z.reshape(xx.shape)
+
+Explanation:
+
+- Predicts class for each grid point.
+- Used to generate colored classification regions.
+
+--------------------------------------------------
+
+12. Plot Decision Regions
+
+plt.contourf(xx, yy, Z, alpha=0.4)
+
+Explanation:
+
+- Draws colored decision regions.
+- Each color represents one class.
+
+--------------------------------------------------
+
+13. Plot Data Points
+
+plt.scatter(X[:, 0], X[:, 1], c=y, edgecolor='k')
+
+Explanation:
+
+- Displays actual Iris flower data points.
+
+c=y
+- Colors points according to class.
+
+edgecolor='k'
+- Adds black border to points.
+
+--------------------------------------------------
+
+14. Add Labels and Title
+
+plt.xlabel("Sepal Length")
+
+plt.ylabel("Petal Length")
+
+plt.title("Perceptron Decision Regions (Iris Setosa vs Others)")
+
+Explanation:
+
+- Adds graph labels and title.
+
+--------------------------------------------------
+
+15. Display Graph
+
+plt.show()
+
+Explanation:
+
+- Displays final graphical output.
+
+--------------------------------------------------
+
+Explanation of Output
+
+The graphical output contains:
+
+1. Scatter Points
+- Represents Iris flower samples.
+
+2. Decision Regions
+- Colored background shows predicted class regions.
+
+3. Decision Boundary
+- Boundary line separating classes.
+
+Meaning:
+- One region represents Setosa flowers.
+- Other region represents non-Setosa flowers.
+
+The perceptron learns a boundary that separates classes successfully.
+
+--------------------------------------------------
+
+Perceptron Learning Law
+
+Definition:
+Perceptron Learning Law is a supervised learning algorithm used to update weights and bias based on prediction error.
+
+Formula:
+
+w = w + lr × error × input
+
+b = b + lr × error
+
+--------------------------------------------------
+
+Decision Region
+
+Definition:
+Decision region is the area where all points belong to same predicted class.
+
+--------------------------------------------------
+
+Decision Boundary
+
+Definition:
+Decision boundary is the line separating different classes.
+
+--------------------------------------------------
+
+Structure of Perceptron
+
+1. Input Layer
+- Receives features.
+
+2. Weights
+- Determines importance of inputs.
+
+3. Summation Unit
+- Calculates weighted sum.
+
+4. Activation Function
+- Produces binary output.
+
+--------------------------------------------------
+
+Working of Perceptron
+
+Step 1:
+Input features are given.
+
+Step 2:
+Weighted sum is calculated.
+
+Step 3:
+Activation function generates output.
+
+Step 4:
+Error is calculated.
+
+Step 5:
+Weights and bias are updated.
+
+--------------------------------------------------
+
+Advantages of Perceptron
+
+1. Simple implementation
+2. Fast training
+3. Good for binary classification
+4. Easy visualization
+
+--------------------------------------------------
+
+Applications
+
+1. Pattern Recognition
+2. Binary Classification
+3. Medical Diagnosis
+4. Spam Detection
+
+--------------------------------------------------
+
+Important ANN Concepts Used
+
+1. Perceptron
+2. Supervised Learning
+3. Weight Update
+4. Bias
+5. Decision Boundary
+6. Decision Region
+
+--------------------------------------------------
+
+Viva / Oral Questions
+
+Q1. What is Perceptron Learning Law?
+Answer:
+It is a rule used to update weights and bias based on prediction error.
+
+--------------------------------------------------
+
+Q2. What is decision boundary?
+Answer:
+A boundary that separates different classes.
+
+--------------------------------------------------
+
+Q3. What is decision region?
+Answer:
+An area where all points belong to same predicted class.
+
+--------------------------------------------------
+
+Q4. What is learning rate?
+Answer:
+Learning rate controls amount of weight update during training.
+
+--------------------------------------------------
+
+Q5. Which dataset is used in this program?
+Answer:
+Iris flower dataset.
+
+--------------------------------------------------
+
+Conclusion
+
+This program successfully demonstrates Perceptron Learning Law using the Iris dataset. The perceptron learns to classify Iris flowers into two classes and visually displays decision regions and decision boundary using graphical representation.

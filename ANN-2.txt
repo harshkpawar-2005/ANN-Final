@@ -1,0 +1,335 @@
+2 Generate AND or NOT function using McCulloch-Pitts neural net
+
+import numpy as np
+
+def linear_threshold_gate(dot, T):
+    if dot >= T:
+        return 1
+    else:
+        return 0
+
+input_table = np.array([
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+])
+
+print("Input Table:")
+print(input_table)
+
+weights = np.array([1, -1])
+
+dot_products = input_table @ weights
+
+T = 1
+
+for i in range(4):
+    activation = linear_threshold_gate(dot_products[i], T)
+    print(f"Activation: {activation}")
+
+--------------------------------------------------
+
+Program Title:
+Generate AND or NOT Function using McCulloch-Pitts Neural Network.
+
+--------------------------------------------------
+
+Problem Being Solved
+
+The problem is to implement logical operations using a McCulloch-Pitts Neural Network.
+
+The network should:
+- Take binary inputs
+- Apply weights and threshold
+- Produce binary output based on activation
+
+--------------------------------------------------
+
+Aim / What is the Program
+
+The aim of this program is to implement a McCulloch-Pitts neuron using threshold logic for generating logical functions such as AND or NOT gate.
+
+--------------------------------------------------
+
+What the Program Does
+
+- Creates binary input combinations.
+- Defines neuron weights.
+- Calculates weighted sums.
+- Applies threshold activation function.
+- Produces binary outputs.
+- Demonstrates working of McCulloch-Pitts neural model.
+
+--------------------------------------------------
+
+1. Import Library
+
+import numpy as np
+
+Explanation:
+
+- numpy library is used for arrays and mathematical operations.
+
+--------------------------------------------------
+
+2. Define Threshold Function
+
+def linear_threshold_gate(dot, T):
+    if dot >= T:
+        return 1
+    else:
+        return 0
+
+Explanation:
+
+dot
+- Weighted sum input.
+
+T
+- Threshold value.
+
+Working:
+- If weighted sum >= threshold:
+    Output = 1
+- Otherwise:
+    Output = 0
+
+This acts as activation function.
+
+--------------------------------------------------
+
+3. Create Input Table
+
+input_table = np.array([
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+])
+
+Explanation:
+
+- Stores all possible binary input combinations.
+
+Truth table inputs:
+(0,0)
+(0,1)
+(1,0)
+(1,1)
+
+--------------------------------------------------
+
+4. Display Input Table
+
+print("Input Table:")
+print(input_table)
+
+Explanation:
+
+- Displays all input combinations.
+
+--------------------------------------------------
+
+5. Define Weights
+
+weights = np.array([1, -1])
+
+Explanation:
+
+- Assigns weights to input neurons.
+
+Weight values:
+- First input weight = 1
+- Second input weight = -1
+
+Weights determine importance of inputs.
+
+--------------------------------------------------
+
+6. Calculate Dot Products
+
+dot_products = input_table @ weights
+
+Explanation:
+
+@ operator
+- Performs matrix multiplication.
+
+Formula:
+
+dot product =
+(input1 × weight1) +
+(input2 × weight2)
+
+Example:
+
+For input [1,0]
+
+= (1×1) + (0×-1)
+= 1
+
+--------------------------------------------------
+
+7. Set Threshold Value
+
+T = 1
+
+Explanation:
+
+- Threshold value is set to 1.
+
+Condition:
+- If weighted sum >= 1:
+    Neuron activates.
+
+--------------------------------------------------
+
+8. Apply Activation Function
+
+for i in range(4):
+
+    activation = linear_threshold_gate(dot_products[i], T)
+
+    print(f"Activation: {activation}")
+
+Explanation:
+
+- Processes all input combinations.
+- Applies threshold function.
+- Displays binary output.
+
+--------------------------------------------------
+
+Explanation of Output
+
+The output shows:
+- Input combinations
+- Corresponding neuron activations
+
+Example:
+
+Input:
+[1 0]
+
+Weighted Sum:
+1
+
+Threshold:
+1
+
+Output:
+1
+
+Meaning:
+- Neuron fires when weighted sum reaches threshold.
+
+--------------------------------------------------
+
+McCulloch-Pitts Neural Network
+
+Definition:
+McCulloch-Pitts neuron is the simplest artificial neural network model based on binary threshold logic.
+
+--------------------------------------------------
+
+Structure of McCulloch-Pitts Neuron
+
+1. Input Neurons
+- Receive binary inputs.
+
+2. Weights
+- Determine importance of inputs.
+
+3. Summation Unit
+- Calculates weighted sum.
+
+4. Threshold Function
+- Produces binary output.
+
+--------------------------------------------------
+
+Working of McCulloch-Pitts Neuron
+
+Step 1:
+Receive binary inputs.
+
+Step 2:
+Multiply inputs with weights.
+
+Step 3:
+Calculate weighted sum.
+
+Step 4:
+Compare with threshold.
+
+Step 5:
+Generate output:
+0 or 1
+
+--------------------------------------------------
+
+Characteristics of McCulloch-Pitts Model
+
+1. Binary inputs
+2. Binary outputs
+3. Fixed weights
+4. Threshold-based activation
+5. No learning process
+
+--------------------------------------------------
+
+Applications
+
+1. Logic Gate Simulation
+2. Pattern Recognition
+3. Basic Neural Network Study
+
+--------------------------------------------------
+
+Important ANN Concepts Used
+
+1. McCulloch-Pitts Neuron
+2. Threshold Logic
+3. Binary Classification
+4. Weighted Sum
+5. Activation Function
+
+--------------------------------------------------
+
+Viva / Oral Questions
+
+Q1. What is McCulloch-Pitts neuron?
+Answer:
+It is the simplest artificial neuron model based on threshold logic.
+
+--------------------------------------------------
+
+Q2. What is threshold value?
+Answer:
+Threshold is the minimum weighted sum required to activate neuron.
+
+--------------------------------------------------
+
+Q3. What is weighted sum?
+Answer:
+It is the sum of inputs multiplied by corresponding weights.
+
+--------------------------------------------------
+
+Q4. What type of outputs does McCulloch-Pitts neuron produce?
+Answer:
+Binary outputs:
+0 or 1
+
+--------------------------------------------------
+
+Q5. Does McCulloch-Pitts neuron learn automatically?
+Answer:
+No, it uses fixed weights and threshold values.
+
+--------------------------------------------------
+
+Conclusion
+
+This program successfully demonstrates a McCulloch-Pitts Neural Network using threshold logic. The neuron processes binary inputs, calculates weighted sums, applies threshold activation, and generates logical outputs.

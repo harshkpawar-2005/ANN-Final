@@ -1,0 +1,407 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-10, 10, 200)
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+def tanh(x):
+    return np.tanh(x)
+
+def relu(x):
+    return np.maximum(0, x)
+
+def leaky_relu(x):
+    return np.where(x > 0, x, 0.01 * x)
+
+plt.figure(figsize=(10, 8))
+
+plt.subplot(2, 2, 1)
+plt.plot(x, sigmoid(x))
+plt.title("Sigmoid Function")
+plt.grid(True)
+
+plt.subplot(2, 2, 2)
+plt.plot(x, tanh(x))
+plt.title("Tanh Function")
+plt.grid(True)
+
+plt.subplot(2, 2, 3)
+plt.plot(x, relu(x))
+plt.title("ReLU Function")
+plt.grid(True)
+
+plt.subplot(2, 2, 4)
+plt.plot(x, leaky_relu(x))
+plt.title("Leaky ReLU Function")
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+--------------------------------------------------
+
+Program Title:
+Write a Python Program to plot activation functions used in Neural Networks.
+
+--------------------------------------------------
+
+Problem Being Solved
+
+The problem is to visualize different activation functions used in Artificial Neural Networks.
+
+Activation functions help neural networks decide whether a neuron should activate or not and introduce non-linearity into the network.
+
+--------------------------------------------------
+
+Aim / What is the Program
+
+The aim of this program is to implement and plot commonly used activation functions:
+1. Sigmoid
+2. Tanh
+3. ReLU
+4. Leaky ReLU
+
+--------------------------------------------------
+
+What the Program Does
+
+- Generates input values.
+- Defines different activation functions.
+- Computes outputs for each activation function.
+- Plots graphs of activation functions.
+- Displays all graphs in a single figure.
+
+--------------------------------------------------
+
+1. Import Libraries
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+Explanation:
+
+numpy
+- Used for numerical and mathematical operations.
+
+matplotlib.pyplot
+- Used for plotting graphs.
+
+--------------------------------------------------
+
+2. Generate Input Values
+
+x = np.linspace(-10, 10, 200)
+
+Explanation:
+
+linspace()
+- Generates evenly spaced values.
+
+Here:
+- Start value = -10
+- End value = 10
+- Total values = 200
+
+These values are used as inputs for activation functions.
+
+--------------------------------------------------
+
+3. Sigmoid Activation Function
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+Explanation:
+
+Formula:
+
+sigmoid(x) = 1 / (1 + e^(-x))
+
+Output range:
+0 to 1
+
+Properties:
+- Smooth curve
+- Used in binary classification
+
+--------------------------------------------------
+
+4. Tanh Activation Function
+
+def tanh(x):
+    return np.tanh(x)
+
+Explanation:
+
+Formula:
+
+tanh(x) = (e^x - e^-x) / (e^x + e^-x)
+
+Output range:
+-1 to 1
+
+Advantages:
+- Output centered around zero
+- Better convergence than sigmoid
+
+--------------------------------------------------
+
+5. ReLU Activation Function
+
+def relu(x):
+    return np.maximum(0, x)
+
+Explanation:
+
+Formula:
+
+ReLU(x) = max(0, x)
+
+Working:
+- Positive values remain same
+- Negative values become 0
+
+Advantages:
+- Fast computation
+- Widely used in deep learning
+
+--------------------------------------------------
+
+6. Leaky ReLU Activation Function
+
+def leaky_relu(x):
+    return np.where(x > 0, x, 0.01 * x)
+
+Explanation:
+
+Formula:
+
+LeakyReLU(x) =
+x           if x > 0
+0.01x       if x <= 0
+
+Advantages:
+- Prevents dying ReLU problem
+- Allows small negative values
+
+--------------------------------------------------
+
+7. Create Figure
+
+plt.figure(figsize=(10, 8))
+
+Explanation:
+
+- Creates plotting window.
+- Figure size:
+    Width = 10
+    Height = 8
+
+--------------------------------------------------
+
+8. Plot Sigmoid Function
+
+plt.subplot(2, 2, 1)
+
+plt.plot(x, sigmoid(x))
+
+plt.title("Sigmoid Function")
+
+plt.grid(True)
+
+Explanation:
+
+subplot(2,2,1)
+- Creates first graph position.
+
+plot()
+- Draws graph.
+
+title()
+- Adds graph title.
+
+grid(True)
+- Displays grid lines.
+
+--------------------------------------------------
+
+9. Plot Tanh Function
+
+plt.subplot(2, 2, 2)
+
+plt.plot(x, tanh(x))
+
+plt.title("Tanh Function")
+
+plt.grid(True)
+
+Explanation:
+
+- Plots Tanh activation graph in second position.
+
+--------------------------------------------------
+
+10. Plot ReLU Function
+
+plt.subplot(2, 2, 3)
+
+plt.plot(x, relu(x))
+
+plt.title("ReLU Function")
+
+plt.grid(True)
+
+Explanation:
+
+- Plots ReLU activation graph in third position.
+
+--------------------------------------------------
+
+11. Plot Leaky ReLU Function
+
+plt.subplot(2, 2, 4)
+
+plt.plot(x, leaky_relu(x))
+
+plt.title("Leaky ReLU Function")
+
+plt.grid(True)
+
+Explanation:
+
+- Plots Leaky ReLU graph in fourth position.
+
+--------------------------------------------------
+
+12. Adjust Layout
+
+plt.tight_layout()
+
+Explanation:
+
+- Automatically adjusts spacing between graphs.
+- Prevents overlap.
+
+--------------------------------------------------
+
+13. Display Graphs
+
+plt.show()
+
+Explanation:
+
+- Displays all activation function graphs on screen.
+
+--------------------------------------------------
+
+Explanation of Output
+
+The output displays four graphs:
+
+1. Sigmoid Function
+- S-shaped curve.
+- Output ranges from 0 to 1.
+
+2. Tanh Function
+- Similar to sigmoid but centered at zero.
+- Output ranges from -1 to 1.
+
+3. ReLU Function
+- Negative values become 0.
+- Positive values remain linear.
+
+4. Leaky ReLU Function
+- Similar to ReLU.
+- Allows small negative output.
+
+These graphs help understand how activation functions transform input values inside neural networks.
+
+--------------------------------------------------
+
+Activation Function
+
+Definition:
+Activation function determines whether a neuron should activate or not by converting weighted input into output.
+
+--------------------------------------------------
+
+Why Activation Functions are Needed
+
+1. Introduce non-linearity
+2. Help neural network learn complex patterns
+3. Improve learning capability
+
+Without activation functions:
+- Neural network behaves like linear model only.
+
+--------------------------------------------------
+
+Types of Activation Functions
+
+1. Linear
+2. Sigmoid
+3. Tanh
+4. ReLU
+5. Leaky ReLU
+6. Softmax
+
+--------------------------------------------------
+
+Applications of Activation Functions
+
+1. Image Classification
+2. Speech Recognition
+3. Natural Language Processing
+4. Deep Learning Models
+
+--------------------------------------------------
+
+Important ANN Concepts Used
+
+1. Activation Function
+2. Non-linearity
+3. Deep Learning
+4. Neural Networks
+5. ReLU
+6. Sigmoid
+7. Tanh
+
+--------------------------------------------------
+
+Viva / Oral Questions
+
+Q1. What is activation function?
+Answer:
+Activation function determines whether a neuron should activate or not.
+
+--------------------------------------------------
+
+Q2. Why are activation functions important?
+Answer:
+They introduce non-linearity into neural networks.
+
+--------------------------------------------------
+
+Q3. What is the output range of sigmoid?
+Answer:
+0 to 1
+
+--------------------------------------------------
+
+Q4. What is the advantage of ReLU?
+Answer:
+Fast computation and efficient deep learning training.
+
+--------------------------------------------------
+
+Q5. Why is Leaky ReLU used?
+Answer:
+To solve dying ReLU problem.
+
+--------------------------------------------------
+
+Conclusion
+
+This program successfully plots commonly used activation functions in neural networks. The graphs help visualize how different activation functions transform input values and support neural network learning.
