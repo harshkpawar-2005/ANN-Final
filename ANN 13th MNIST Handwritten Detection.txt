@@ -1,0 +1,532 @@
+python3 -m pip install tensorflow --break-system-packages
+
+
+import tensorflow as tf
+
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Flatten
+from tensorflow.keras.optimizers import Adam
+
+# Load and preprocess the MNIST dataset
+(X_train, y_train), (X_test, y_test) = mnist.load_data()
+
+X_train = X_train / 255.0
+
+X_test = X_test / 255.0
+
+# Define the model architecture
+model = Sequential([
+
+    Flatten(input_shape=(28, 28)),
+
+    Dense(128, activation='relu'),
+
+    Dense(10, activation='softmax')
+
+])
+
+# Compile the model
+model.compile(
+    optimizer=Adam(learning_rate=0.001),
+    loss='sparse_categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+# Train the model
+model.fit(
+    X_train,
+    y_train,
+    batch_size=64,
+    epochs=10,
+    verbose=1
+)
+
+# Evaluate the model
+loss, accuracy = model.evaluate(X_test, y_test)
+
+print(f"Test Loss: {loss}")
+
+print(f"Test Accuracy: {accuracy}")
+
+--------------------------------------------------
+
+Program Title:
+Implementation of MNIST Handwritten Character Detection using TensorFlow/Keras.
+
+--------------------------------------------------
+
+Problem Being Solved
+
+The problem is to recognize and classify handwritten digit images from the MNIST dataset using an Artificial Neural Network.
+
+The model should correctly identify handwritten digits from 0 to 9.
+
+--------------------------------------------------
+
+Aim / What is the Program
+
+The aim of this program is to implement handwritten digit recognition using TensorFlow and Keras on the MNIST dataset.
+
+--------------------------------------------------
+
+What the Program Does
+
+- Loads MNIST handwritten digit dataset.
+- Preprocesses image data.
+- Builds Artificial Neural Network model.
+- Trains model using handwritten images.
+- Evaluates model performance.
+- Predicts handwritten digits from 0 to 9.
+
+--------------------------------------------------
+
+1. Import TensorFlow
+
+import tensorflow as tf
+
+Explanation:
+
+- TensorFlow is used for machine learning and deep learning.
+
+--------------------------------------------------
+
+2. Import Required Modules
+
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Flatten
+from tensorflow.keras.optimizers import Adam
+
+
+Keras
+
+Definition:
+Keras is a high-level deep learning API used for building and training neural network models easily. It runs on top of frameworks like TensorFlow.
+
+Explanation:
+
+mnist
+- Loads MNIST dataset.
+
+Sequential
+- Creates feed-forward neural network.
+
+Dense
+- Fully connected neural network layer.
+
+Flatten
+- Converts image matrix into vector.
+
+Adam
+- Optimization algorithm for training.
+
+--------------------------------------------------
+
+3. Load MNIST Dataset
+
+(X_train, y_train), (X_test, y_test) = mnist.load_data()
+
+Explanation:
+
+- Loads handwritten digit dataset.
+
+Dataset contains:
+- Training images
+- Training labels
+- Testing images
+- Testing labels
+
+Each image size:
+28 × 28 pixels
+
+Digits:
+0 to 9
+
+--------------------------------------------------
+
+4. Normalize Image Data
+
+X_train = X_train / 255.0
+
+X_test = X_test / 255.0
+
+Explanation:
+
+- Pixel values range:
+0 to 255
+
+Division by 255.0:
+- Converts values into range:
+0 to 1
+
+Why normalization is needed:
+- Improves training performance.
+- Faster convergence.
+
+--------------------------------------------------
+
+5. Create Neural Network Model
+
+model = Sequential([
+
+    Flatten(input_shape=(28, 28)),
+
+    Dense(128, activation='relu'),
+
+    Dense(10, activation='softmax')
+
+])
+
+Explanation:
+
+--------------------------------------------------
+
+6. Flatten Layer
+
+Flatten(input_shape=(28, 28))
+
+Explanation:
+
+- Converts 28 × 28 image into 1D vector.
+- Total neurons:
+784
+
+--------------------------------------------------
+
+7. Hidden Dense Layer
+
+Dense(128, activation='relu')
+
+Explanation:
+
+128 neurons
+- Learns important image features.
+
+ReLU Activation:
+- Removes negative values.
+- Adds non-linearity.
+
+Formula:
+
+ReLU(x) = max(0, x)
+
+--------------------------------------------------
+
+8. Output Layer
+
+Dense(10, activation='softmax')
+
+Explanation:
+
+10 neurons
+- Represents digits:
+0 to 9
+
+Softmax activation:
+- Produces probability values.
+
+Highest probability becomes predicted digit.
+
+--------------------------------------------------
+
+9. Compile Model
+
+model.compile(
+    optimizer=Adam(learning_rate=0.001),
+    loss='sparse_categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+Explanation:
+
+optimizer=Adam
+- Updates weights efficiently.
+
+learning_rate=0.001
+- Controls speed of learning.
+
+loss='sparse_categorical_crossentropy'
+- Loss function for multiclass classification.
+
+metrics=['accuracy']
+- Measures model accuracy.
+
+--------------------------------------------------
+
+10. Train Model
+
+model.fit(
+    X_train,
+    y_train,
+    batch_size=64,
+    epochs=10,
+    verbose=1
+)
+
+Explanation:
+
+batch_size=64
+- 64 images processed together.
+
+epochs=10
+- Entire dataset trained 10 times.
+
+verbose=1
+- Displays training progress.
+
+--------------------------------------------------
+
+11. Evaluate Model
+
+loss, accuracy = model.evaluate(X_test, y_test)
+
+Explanation:
+
+- Tests model using unseen data.
+- Calculates:
+    1. Test Loss
+    2. Test Accuracy
+
+--------------------------------------------------
+
+12. Display Results
+
+print(f"Test Loss: {loss}")
+
+print(f"Test Accuracy: {accuracy}")
+
+Explanation:
+
+- Displays final model performance.
+
+--------------------------------------------------
+
+Explanation of Output
+
+During training:
+- Model displays:
+    Epoch number
+    Accuracy
+    Loss
+
+Example:
+
+Epoch 1/10
+accuracy: 0.95
+loss: 0.18
+
+After testing:
+
+Test Accuracy: 0.97
+
+Meaning:
+- Model correctly identifies 97% handwritten digits.
+
+--------------------------------------------------
+
+MNIST Handwritten Character Detection (Viva Answer)
+Definition:
+MNIST handwritten character detection is a task where a neural network is trained to recognize handwritten digits (0–9) using the MNIST dataset.
+
+Explanation:
+
+MNIST is a dataset of 28×28 pixel grayscale images of handwritten digits
+
+The model learns patterns like shapes and strokes
+
+After training, it can predict which digit (0–9) is in the image
+
+Working (Simple):
+
+Input image (28×28 pixels)
+
+Pass through neural network (CNN/MLP)
+
+Extract features
+
+Output predicted digit (0–9)
+
+Key Points:
+
+Dataset size: ~60,000 training + 10,000 testing images
+
+Commonly used for beginners in deep learning
+
+Accuracy can reach >95% easily
+
+Example:
+Input image → looks like “5”
+Model output → 5
+--------------------------------------------------
+
+Artificial Neural Network (ANN)
+
+Definition:
+ANN is a computational model inspired by biological neurons used for learning and prediction.
+
+--------------------------------------------------
+
+Structure of ANN Used
+
+1. Input Layer
+- Receives image pixels.
+
+2. Hidden Layer
+- Learns important features.
+
+3. Output Layer
+- Predicts digit class.
+
+--------------------------------------------------
+
+Working of the Program
+
+Step 1:
+Load handwritten digit images.
+
+Step 2:
+Normalize image values.
+
+Step 3:
+Convert images into vectors.
+
+Step 4:
+Pass data through hidden layer.
+
+Step 5:
+Generate predictions using softmax.
+
+Step 6:
+Calculate loss and update weights.
+
+Step 7:
+Evaluate model performance.
+
+--------------------------------------------------
+
+ReLU Activation Function
+
+Definition:
+ReLU stands for Rectified Linear Unit.
+
+Formula:
+
+ReLU(x) = max(0, x)
+
+Advantages:
+- Faster training
+- Removes vanishing gradient problem
+
+--------------------------------------------------
+
+Softmax Activation Function
+
+Definition:
+Softmax converts outputs into probability distribution.
+
+Example:
+
+[2.1, 1.5, 0.3]
+
+becomes:
+
+[0.65, 0.25, 0.10]
+
+Highest probability is selected as output class.
+
+--------------------------------------------------
+
+TensorFlow
+
+Definition:
+TensorFlow is an open-source deep learning framework developed by Google.
+
+--------------------------------------------------
+
+Keras
+
+Definition:
+Keras is a high-level API built on TensorFlow used for easy neural network development.
+
+--------------------------------------------------
+
+PyTorch
+
+Definition:
+PyTorch is another popular deep learning framework developed by Facebook.
+
+Features:
+- Dynamic computation graph
+- Easy debugging
+- Popular in research
+
+--------------------------------------------------
+
+Advantages of Handwritten Digit Recognition
+
+1. Automatic digit detection
+2. High accuracy
+3. Fast processing
+4. Real-world automation
+
+--------------------------------------------------
+
+Applications
+
+1. Bank cheque reading
+2. Postal code recognition
+3. OCR systems
+4. Form digitization
+5. Document processing
+
+--------------------------------------------------
+
+Important ANN Concepts Used
+
+1. Artificial Neural Network
+2. Deep Learning
+3. ReLU Activation
+4. Softmax Activation
+5. Multiclass Classification
+6. TensorFlow
+7. Keras
+8. MNIST Dataset
+
+--------------------------------------------------
+
+Viva / Oral Questions
+
+Q1. What is MNIST dataset?
+Answer:
+MNIST is a dataset of handwritten digit images used for machine learning.
+
+--------------------------------------------------
+
+Q2. What is ReLU activation?
+Answer:
+ReLU is an activation function that returns max(0, x).
+
+--------------------------------------------------
+
+Q3. Why is softmax used in output layer?
+Answer:
+Softmax converts outputs into probability values for multiclass classification.
+
+--------------------------------------------------
+
+Q4. What is TensorFlow?
+Answer:
+TensorFlow is an open-source deep learning framework developed by Google.
+
+--------------------------------------------------
+
+Q5. What is Keras?
+Answer:
+Keras is a high-level API used for building neural networks easily.
+
+--------------------------------------------------
+
+Conclusion
+
+This program successfully implements handwritten digit recognition using TensorFlow and Keras on the MNIST dataset. The neural network learns digit patterns and classifies handwritten digits with high accuracy.
