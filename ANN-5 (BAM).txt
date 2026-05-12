@@ -1,0 +1,269 @@
+import numpy as np
+
+x1 = np.array([1, 1, 1, -1])
+y1 = np.array([1, -1])
+
+x2 = np.array([-1, -1, 1, 1])
+y2 = np.array([-1, 1])
+
+W = np.outer(y1, x1) + np.outer(y2, x2)
+
+def bam(x):
+    y = np.dot(W, x)
+    y = np.where(y >= 0, 1, -1)
+    return y
+
+x_test = np.array([1, -1, -1, -1])
+y_test = bam(x_test)
+
+print("Weight Matrix W:\n", W)
+print("Input x:", x_test)
+print("Output y:", y_test)
+
+--------------------------------------------------
+
+Program Title:
+Write a Python Program for Bidirectional Associative Memory (BAM) with two pairs of vectors.
+
+--------------------------------------------------
+
+Aim / What is the Program
+
+The aim of this program is to implement Bidirectional Associative Memory (BAM) using two vector pairs and recall the associated output vector from a given input vector.
+
+--------------------------------------------------
+
+What the Program Does
+
+- Creates two input-output vector pairs.
+- Generates BAM weight matrix using outer product rule.
+- Stores associative patterns in memory.
+- Accepts a test input vector.
+- Recalls corresponding output vector.
+- Produces binary bipolar output values.
+
+--------------------------------------------------
+
+1. Import Library
+
+import numpy as np
+
+Explanation:
+
+- numpy library is used for mathematical and matrix operations.
+
+--------------------------------------------------
+
+2. Define First Vector Pair
+
+x1 = np.array([1, 1, 1, -1])
+y1 = np.array([1, -1])
+
+Explanation:
+
+- x1 is first input vector.
+- y1 is first associated output vector.
+- Values are bipolar:
+    1 → positive state
+   -1 → negative state
+
+--------------------------------------------------
+
+3. Define Second Vector Pair
+
+x2 = np.array([-1, -1, 1, 1])
+y2 = np.array([-1, 1])
+
+Explanation:
+
+- x2 is second input vector.
+- y2 is second associated output vector.
+
+--------------------------------------------------
+
+4. Create Weight Matrix
+
+W = np.outer(y1, x1) + np.outer(y2, x2)
+
+Explanation:
+
+np.outer(y1, x1)
+
+- Computes outer product of y1 and x1.
+
+np.outer(y2, x2)
+
+- Computes outer product of y2 and x2.
+
+Both matrices are added to form BAM weight matrix.
+
+Formula:
+
+W = y1ᵀx1 + y2ᵀx2
+
+This stores associative memory patterns.
+
+--------------------------------------------------
+
+5. Define BAM Function
+
+def bam(x):
+
+    y = np.dot(W, x)
+
+    y = np.where(y >= 0, 1, -1)
+
+    return y
+
+Explanation:
+
+np.dot(W, x)
+
+- Multiplies weight matrix with input vector.
+- Produces output vector.
+
+np.where(y >= 0, 1, -1)
+
+- Applies bipolar activation function.
+- Positive values become 1.
+- Negative values become -1.
+
+return y
+
+- Returns final output vector.
+
+--------------------------------------------------
+
+6. Test Input Vector
+
+x_test = np.array([1, -1, -1, -1])
+
+Explanation:
+
+- Test input vector is provided to BAM network.
+
+--------------------------------------------------
+
+7. Recall Output Vector
+
+y_test = bam(x_test)
+
+Explanation:
+
+- BAM function processes input vector.
+- Recalls associated output vector.
+
+--------------------------------------------------
+
+8. Display Results
+
+print("Weight Matrix W:\n", W)
+print("Input x:", x_test)
+print("Output y:", y_test)
+
+Explanation:
+
+- Displays:
+    1. Weight matrix
+    2. Input vector
+    3. Output vector
+
+--------------------------------------------------
+
+Explanation of Output
+
+1. Weight Matrix W
+- Represents stored associations between vectors.
+- Used by BAM network for recall process.
+
+2. Input Vector
+- Test vector given to network.
+
+3. Output Vector
+- Recalled associated vector.
+- Output contains bipolar values:
+    1 and -1
+
+The BAM network remembers patterns and retrieves corresponding outputs based on learned associations.
+
+--------------------------------------------------
+
+Important ANN Concepts Used
+
+1. Bidirectional Associative Memory (BAM)
+- Neural network used for associative memory.
+
+2. Associative Learning
+- Stores relation between input and output vectors.
+
+3. Weight Matrix
+- Stores learned patterns.
+
+4. Outer Product
+- Used to calculate weight matrix.
+
+5. Bipolar Representation
+- Uses values:
+    1 and -1
+
+--------------------------------------------------
+
+Viva / Oral Questions
+
+Q1. What is BAM?
+Answer:
+BAM stands for Bidirectional Associative Memory. It is a neural network used to store and recall associated vector pairs.
+
+--------------------------------------------------
+
+Q2. Why is it called bidirectional?
+Answer:
+Because association works in both directions:
+Input to output and output to input.
+
+--------------------------------------------------
+
+Q3. What is associative memory?
+Answer:
+Associative memory recalls related patterns from stored data.
+
+--------------------------------------------------
+
+Q4. What is the role of weight matrix?
+Answer:
+The weight matrix stores associations between vectors.
+
+--------------------------------------------------
+
+Q5. What values are used in bipolar representation?
+Answer:
+The values used are:
+1 and -1
+
+--------------------------------------------------
+
+Conclusion
+
+This program successfully implements Bidirectional Associative Memory using two vector pairs. The BAM network stores associations using weight matrix and recalls the corresponding output vector when an input vector is provided.
+
+Bidirectional Associative Memory (BAM) – Viva Answer
+Definition:
+Bidirectional Associative Memory (BAM) is a type of neural network that stores and recalls pairs of patterns, and works in both directions (forward and backward).
+
+Explanation:
+
+BAM is a two-layer network
+
+It connects two sets of neurons (Layer X and Layer Y)
+
+If you give input from one side, it can recall the associated output from the other side
+
+It also works in reverse (output → input)
+
+Working (Simple):
+
+Input pattern is given to one layer
+
+Network recalls the corresponding pair from memory
+
+Signals move in both directions until stable output is reached
